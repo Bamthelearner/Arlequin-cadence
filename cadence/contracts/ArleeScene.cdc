@@ -198,7 +198,7 @@
         }
 
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
-            return &self.ownedNFTs[id] as &NonFungibleToken.NFT
+            return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
         }
 
         pub fun borrowArleeScene(id: UInt64): &ArleeScene.NFT? {
@@ -206,8 +206,8 @@
                 return nil
             }
 
-            let nftRef = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT
-            let ref = nftRef as! &ArleeScene.NFT
+            let nftRef = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+            let ref = (nftRef as! &ArleeScene.NFT?)!
 
             return ref
             
@@ -215,10 +215,10 @@
 
         //MetadataViews Implementation
         pub fun borrowViewResolver(id: UInt64): &{MetadataViews.Resolver} {
-            let nftRef = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT
-            let ArleeSceneRef = nftRef as! &ArleeScene.NFT
+            let nftRef = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+            let ArleeSceneRef = (nftRef as &ArleeScene.NFT?)!
 
-            return ArleeSceneRef as &{MetadataViews.Resolver}
+            return (ArleeSceneRef as &{MetadataViews.Resolver}?)!
         }
 
     }
@@ -344,6 +344,10 @@
 
     access(account) fun setMintable(mintable: Bool) {
         ArleeScene.mintable = mintable
+    }
+
+    access(account) fun deductFreeMintAcctLimit(_ buyer: Address) {
+        ArleeScene.freeMintAcct[buyer] = ArleeScene.freeMintAcct[buyer]! - 1
     }
 
     init(){
