@@ -1,3 +1,6 @@
+//  import NonFungibleToken from 0x1d7e57aa55817448
+//  import MetadataViews from 0x1d7e57aa55817448
+
 import FungibleToken from "./FungibleToken.cdc"
 import NonFungibleToken from "./NonFungibleToken.cdc"
 import MetadataViews from "./MetadataViews.cdc"
