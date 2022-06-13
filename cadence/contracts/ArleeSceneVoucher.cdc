@@ -172,7 +172,7 @@
             }
 
             let nftRef = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
-            let ref = (nftRef as! &ArleeSceneVoucher.NFT?)!
+            let ref = nftRef as! &ArleeSceneVoucher.NFT
 
             return ref
             
@@ -181,9 +181,9 @@
         //MetadataViews Implementation
         pub fun borrowViewResolver(id: UInt64): &{MetadataViews.Resolver} {
             let nftRef = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
-            let ArleeSceneVoucherRef = (nftRef as! &ArleeSceneVoucher.NFT?)!
+            let ArleeSceneVoucherRef = nftRef as! &ArleeSceneVoucher.NFT
 
-            return (ArleeSceneVoucherRef as &{MetadataViews.Resolver}?)!
+            return ArleeSceneVoucherRef as &{MetadataViews.Resolver}
         }
 
     }

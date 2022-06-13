@@ -215,7 +215,7 @@
             let nftRef = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
             let ArleePartnerRef = nftRef as! &ArleePartner.NFT
 
-            return (ArleePartnerRef as &{MetadataViews.Resolver}?)!
+            return ArleePartnerRef as &{MetadataViews.Resolver}
         }
 
     }
@@ -229,7 +229,7 @@
     pub fun checkArleePartnerNFT(addr: Address): Bool {
         let holderCap = getAccount(addr).getCapability<&ArleePartner.Collection{ArleePartner.CollectionPublic}>(ArleePartner.CollectionPublicPath)
         
-        if holderCap.borrow == nil {
+        if holderCap.borrow() == nil {
             return false
         }
         
@@ -244,7 +244,7 @@
     pub fun getArleePartnerNFTIDs(addr: Address): [UInt64]? {
         let holderCap = getAccount(addr).getCapability<&ArleePartner.Collection{ArleePartner.CollectionPublic}>(ArleePartner.CollectionPublicPath)
         
-        if holderCap.borrow == nil {
+        if holderCap.borrow() == nil {
             return nil
         }
         
@@ -345,7 +345,7 @@
 
     access(account) fun setMarketplaceCut(cut: UFix64) {
         let partner = "Arlequin"
-        let royaltyRed = (&ArleePartner.allRoyalties[partner] as &Royalty?)!
+        let royaltyRed = (&ArleePartner.allRoyalties[partner] as! &Royalty?)!
         let oldRoyalty = royaltyRed.cut
         royaltyRed.cut = cut
         emit RoyaltyUpdated(creditor:"Arlequin", previousCut:oldRoyalty, newCut: cut)
@@ -355,7 +355,7 @@
         pre{
             ArleePartner.allRoyalties.containsKey(partner) : "This creditor does not exist"
         }
-        let royaltyRed = (&ArleePartner.allRoyalties[partner]  as &Royalty?)!
+        let royaltyRed = (&ArleePartner.allRoyalties[partner]  as! &Royalty?)!
         let oldRoyalty = royaltyRed.cut
         royaltyRed.cut = cut
         emit RoyaltyUpdated(creditor:partner, previousCut:oldRoyalty, newCut: cut)
